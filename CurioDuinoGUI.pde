@@ -1,0 +1,319 @@
+// CurioDuino GUI
+
+import processing.serial.*;
+
+// Number of samples in average
+final int SAMPLE_SIZE = 150;
+
+// Create object from Serial class
+Serial port;
+
+// Data from battery calculation
+int batteryReading;
+
+// Time measurements
+long timeAtLink, timeSinceLink;
+
+// Edge sensors
+boolean leftEdgeDetected = false;
+boolean rightEdgeDetected = false;
+
+// Obstacle sensors
+boolean leftObstacleDetected = false;
+boolean middleObstacleDetected = false;
+boolean rightObstacleDetected = false;
+
+// Store battery averages
+float[] batteryData = new float[SAMPLE_SIZE];
+float batteryTotal = 0;
+int batteryI = 0, batteryCnt = 0;
+
+// Store time averages
+long[] timeData = new long[SAMPLE_SIZE];
+long timeTotal = 0;
+int timeI = 0, timeCnt = 0;
+
+// Make a font object
+PFont font;
+
+float getCircularBatteryAverage(float inVal)
+{
+  // Subtract oldest value from total
+  batteryTotal -= batteryData[batteryI];
+  
+  // Replace old value with latest reading
+  batteryData[batteryI] = inVal;
+  
+  // Increase total by latest reading
+  batteryTotal += inVal;
+  
+  // Set index to compensate for number of values
+  batteryI = ++batteryI % batteryData.length;
+  
+  // Increase counter if necessary
+  if(batteryCnt < batteryData.length)
+  {
+    batteryCnt++;
+  }
+  
+  return batteryTotal/batteryCnt;
+}
+
+long getCircularTimeAverage(long inVal)
+{
+  // Subtract oldest value from total
+  timeTotal -= timeData[timeI];
+  
+  // Replace old value with latest reading
+  timeData[timeI] = inVal;
+  
+  // Increase total by latest reading
+  timeTotal += inVal;
+  
+  // Set index to compensate for number of values
+  timeI = ++timeI % timeData.length;
+  
+  // Increase counter if necessary
+  if(timeCnt < timeData.length)
+  {
+    timeCnt++;
+  }
+  
+  return timeTotal/timeCnt;
+}
+
+void drawBattery()
+{
+  // Calculate battery percentage
+  float percentage = (batteryReading*1.5)/1023;
+  
+  percentage = getCircularBatteryAverage(percentage);
+  
+  if (percentage > 1.0)
+  {
+    percentage = 1;
+  }
+  
+  else if (percentage < 0.0)
+  {
+    return;
+  }
+    
+  // This rectangle is under the string
+  fill(200);
+  stroke(1);
+  rect(289, 161, 95, 28);
+  
+  // This rectangle is under the percentage bar
+  rect(150, 112, 563, 24);
+  
+  // Fill bar color depends on percent
+  // Gradient from green to red
+  float redFader = map(percentage, 1.0, .5, 0, 255);
+  float greenFader = map(percentage, .5, 0, 255, 0);
+  fill(redFader, greenFader, 0);
+  
+  // Draw the bar
+  rect(153, 115, (560*percentage), 18);
+  
+  // Draw the string
+  fill(0);
+  text(nf(percentage*100, 3, 2), 293, 182);
+}
+
+void drawCommStatus()
+{
+  // This circle is under the indicator LED
+  noStroke();
+  fill(200);
+  ellipse(990, 124, 26, 26);
+  
+  // This rectangle is under the string
+  stroke(1);
+  fill(200);
+  rect(304, 211, 80, 28);
+  
+  // Calculate time since last data link
+  timeSinceLink = millis();
+  timeSinceLink = getCircularTimeAverage(timeSinceLink -= timeAtLink);
+  
+  //println(timeSinceLink);
+  
+  // From zero to one second, change color
+  float greenFader = map(timeSinceLink, 500, 1000, 255, 0);
+  float redFader = map(timeSinceLink, 0, 500, 0, 255);
+  
+  // Draw the LED
+  fill(redFader, greenFader, 0);
+  ellipse(990, 124, 20, 20);
+  
+  // Draw the string
+  fill(redFader, 0, 0);
+  text(nf(timeSinceLink/1000.0, 1, 3), 308, 233);
+}
+
+void drawObstacleStatus()
+{
+  // These are the rectangles under the strings
+  stroke(1);
+  fill(200);
+  rect(334, 261, 50, 28);
+  rect(334, 311, 50, 28);
+  rect(334, 361, 50, 28);
+  
+  // Set fill
+  fill(0);
+  
+  // Draw the strings
+  if(leftObstacleDetected)
+  {
+    fill(180, 0, 0);
+    text("YES", 338, 282);
+  }
+  else
+  {
+    fill(0);
+    text("NO", 345, 282);
+  }
+    
+  if(middleObstacleDetected)
+  {
+    fill(180, 0, 0);
+    text("YES", 338, 332);
+  }
+  else
+  {
+    fill(0);
+    text("NO", 345, 332);
+  }
+  
+  if(rightObstacleDetected)
+  {
+    fill(180, 0, 0);
+    text("YES", 338, 382);
+  }
+  else
+  {
+    fill(0);
+    text("NO", 345, 382);
+  }
+}
+
+void drawEdgeStatus()
+{
+  // These are the rectangles under the strings
+  stroke(1);
+  fill(200);
+  rect(334, 411, 50, 28);
+  rect(334, 461, 50, 28);
+  
+  // Draw the strings
+  if(leftEdgeDetected)
+  {
+    fill(180, 0, 0);
+    text("YES", 338, 432);
+  }
+  else
+  {
+    fill(0);
+    text("NO", 345, 432);
+  }
+  
+  if(rightEdgeDetected)
+  {
+    fill(180, 0, 0);
+    text("YES", 338, 482);
+  }
+  else
+  {
+    fill(0);
+    text("NO", 345, 482);
+  }
+}
+
+void setup()
+{ 
+  size(1024,768);
+  
+  // Pick a font
+  font = loadFont("Monospaced.plain-48.vlw");
+  textFont(font);
+  
+  // Background color
+  background(240);
+  
+  // Main rectangle
+  fill(189);
+  rect(6, 100, 1010, 661, 9);
+
+  // Text color and size
+  fill(0);
+  textSize(48);
+  
+  // Print out labels
+  text("CurioDuino Mission Control", 145, 60);
+  fill(0);
+  textSize(24);
+  text("Battery%: ", 20, 131);
+  text("Comm. link status ", 728, 131);
+  text("Avg battery %: ", 20, 181);
+  text("Time(s) since link: ", 20, 231);
+  text("L obstacle detected: ", 20, 281);
+  text("M obstacle detected: ", 20, 331);
+  text("R obstacle detected: ", 20, 381);
+  text("L edge detected: ", 20, 431);
+  text("R edge detected: ", 20, 481);
+  
+  // If necessary, print list of serial ports
+  //println(Serial.list());
+  
+  // 1 for windows, 0 for mac bluetooth, 3 mac usb
+  String arduinoPort = Serial.list()[0];
+  port = new Serial(this, arduinoPort, 9600);
+  port.bufferUntil('\n');
+}
+
+void draw()
+{
+  // Draw dynamic indicators
+  drawBattery();
+  drawCommStatus();
+  drawObstacleStatus();
+  drawEdgeStatus();
+}
+
+void serialEvent(Serial port)
+{
+  // Required to make sure the
+  // entire data packet has been
+  // sent and recieved
+  if (port.available() < 21)
+  {
+    port.clear();
+    return;
+  }
+  
+  timeAtLink = millis();
+  
+  String data = (port.readString());
+  
+  int index = 0, index2 = 0;
+  index = data.indexOf("LE");
+  
+  leftEdgeDetected = boolean(int(data.substring(0,index)));
+  
+  index2 = data.indexOf("RE");
+  rightEdgeDetected = boolean(int(data.substring(index+2, index2)));
+  
+  index = data.indexOf("B");
+  batteryReading = int(data.substring(index2+2, index));
+  
+  index2 = data.indexOf("LO");
+  leftObstacleDetected = boolean(int(data.substring(index+1, index2)));
+  
+  index = data.indexOf("MO");
+  middleObstacleDetected = boolean(int(data.substring(index2+2, index)));
+  
+  index2 = data.indexOf("RO");
+  rightObstacleDetected = boolean(int(data.substring(index+2, index2)));
+}
