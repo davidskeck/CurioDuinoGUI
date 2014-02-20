@@ -293,8 +293,10 @@ void serialEvent(Serial port)
     return;
   }
   
+  // Get the time immediately after data has arrived
   timeAtLink = millis();
   
+  // Read serial data in
   String data = (port.readString());
   
   int index = 0, index2 = 0;
