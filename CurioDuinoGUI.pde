@@ -2,11 +2,11 @@
 
 import processing.serial.*;
 
-// Number of samples in average
-final int SAMPLE_SIZE = 150;
-
 // 1 for windows, 0 for mac bluetooth, 3 mac usb
 final int PORT_NUMBER = 0;
+
+// Number of samples in average
+final int SAMPLE_SIZE = 150;
 
 // Create object from Serial class
 Serial port;
