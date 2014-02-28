@@ -5,12 +5,15 @@ import processing.serial.*;
 // Number of samples in average
 final int SAMPLE_SIZE = 150;
 
+// 1 for windows, 0 for mac bluetooth, 3 mac usb
+final int PORT_NUMBER = 0;
+
 // Create object from Serial class
 Serial port;
 
 // Check for start button
 boolean isStarted = false;
-boolean writeData = false;
+boolean initialStart = false;
 
 // Data from battery calculation
 int batteryReading;
@@ -109,7 +112,7 @@ void drawBattery()
   rect(289, 161, 95, 28);
   
   // This rectangle is under the percentage bar
-  rect(136, 112, 563, 24);
+  rect(150, 112, 563, 24);
   
   // Fill bar color depends on percent
   // Gradient from green to red
@@ -118,7 +121,7 @@ void drawBattery()
   fill(redFader, greenFader, 0);
   
   // Draw the bar
-  rect(139, 115, (560*percentage), 18);
+  rect(153, 115, (560*percentage), 18);
   
   // Draw the string
   fill(0);
@@ -130,7 +133,7 @@ void drawCommStatus()
   // This circle is under the indicator LED
   noStroke();
   fill(200);
-  ellipse(990, 123, 28, 28);
+  ellipse(990, 124, 26, 26);
   
   // This rectangle is under the string
   stroke(1);
@@ -149,18 +152,17 @@ void drawCommStatus()
   
   // Draw the LED
   fill(redFader, greenFader, 0);
-  ellipse(990, 123, 22, 22);
+  ellipse(990, 124, 20, 20);
   
   // Draw the string
   fill(redFader, 0, 0);
-  if(timeSinceLink < 7000)
+  if(timeSinceLink < 9000)
   {
     text(nf(timeSinceLink/1000.0, 1, 3), 308, 233);
   }
   else
   {
-    text("LOST", 316, 233);
-    writeData = false;
+    text("LOST", 314, 233);
   }
 }
 
@@ -269,8 +271,8 @@ void setup()
   textSize(48);
   text("CurioDuino Mission Control", 145, 60);
   textSize(24);
-  text("Battery: ", 20, 131);
-  text("Comm. link status: ", 715, 131);
+  text("Battery%: ", 20, 131);
+  text("Comm. link status ", 728, 131);
   text("Avg battery %: ", 20, 181);
   text("Time(s) since link: ", 20, 231);
   text("L obstacle detected: ", 20, 281);
@@ -282,15 +284,14 @@ void setup()
   // If necessary, print list of serial ports
   //println(Serial.list());
   
-  // 1 for windows, 0 for mac bluetooth, 3 mac usb
-  String arduinoPort = Serial.list()[1];
+  String arduinoPort = Serial.list()[PORT_NUMBER];
   port = new Serial(this, arduinoPort, 9600);
   port.bufferUntil('\n'); //*/
 }
 
 void draw()
 {
-  if(writeData)
+  if(initialStart)
   {
     // Draw dynamic indicators
     drawBattery();
@@ -345,7 +346,7 @@ void mousePressed()
   {
     // if mouse clicked inside square
     isStarted = !isStarted;
-    writeData = true;
+    initialStart = true;
     
     // Send signal to CurioDuino
     port.write(int(isStarted));
