@@ -8,6 +8,10 @@ final int SAMPLE_SIZE = 150;
 // Create object from Serial class
 Serial port;
 
+// Check for start button
+boolean isStarted = false;
+boolean writeData = false;
+
 // Data from battery calculation
 int batteryReading;
 
@@ -105,7 +109,7 @@ void drawBattery()
   rect(289, 161, 95, 28);
   
   // This rectangle is under the percentage bar
-  rect(150, 112, 563, 24);
+  rect(136, 112, 563, 24);
   
   // Fill bar color depends on percent
   // Gradient from green to red
@@ -114,7 +118,7 @@ void drawBattery()
   fill(redFader, greenFader, 0);
   
   // Draw the bar
-  rect(153, 115, (560*percentage), 18);
+  rect(139, 115, (560*percentage), 18);
   
   // Draw the string
   fill(0);
@@ -126,7 +130,7 @@ void drawCommStatus()
   // This circle is under the indicator LED
   noStroke();
   fill(200);
-  ellipse(990, 124, 26, 26);
+  ellipse(990, 123, 28, 28);
   
   // This rectangle is under the string
   stroke(1);
@@ -145,11 +149,19 @@ void drawCommStatus()
   
   // Draw the LED
   fill(redFader, greenFader, 0);
-  ellipse(990, 124, 20, 20);
+  ellipse(990, 123, 22, 22);
   
   // Draw the string
   fill(redFader, 0, 0);
-  text(nf(timeSinceLink/1000.0, 1, 3), 308, 233);
+  if(timeSinceLink < 7000)
+  {
+    text(nf(timeSinceLink/1000.0, 1, 3), 308, 233);
+  }
+  else
+  {
+    text("LOST", 316, 233);
+    writeData = false;
+  }
 }
 
 void drawObstacleStatus()
@@ -246,16 +258,19 @@ void setup()
   fill(189);
   rect(6, 100, 1010, 661, 9);
 
-  // Text color and size
-  fill(0);
-  textSize(48);
+  // Button rectangle
+  fill(0, 255, 0);
+  rect(20, 550, 364, 200);
   
   // Print out labels
-  text("CurioDuino Mission Control", 145, 60);
   fill(0);
+  textSize(54);
+  text("Start", 120, 660);
+  textSize(48);
+  text("CurioDuino Mission Control", 145, 60);
   textSize(24);
-  text("Battery%: ", 20, 131);
-  text("Comm. link status ", 728, 131);
+  text("Battery: ", 20, 131);
+  text("Comm. link status: ", 715, 131);
   text("Avg battery %: ", 20, 181);
   text("Time(s) since link: ", 20, 231);
   text("L obstacle detected: ", 20, 281);
@@ -268,18 +283,21 @@ void setup()
   //println(Serial.list());
   
   // 1 for windows, 0 for mac bluetooth, 3 mac usb
-  String arduinoPort = Serial.list()[0];
+  String arduinoPort = Serial.list()[1];
   port = new Serial(this, arduinoPort, 9600);
-  port.bufferUntil('\n');
+  port.bufferUntil('\n'); //*/
 }
 
 void draw()
 {
-  // Draw dynamic indicators
-  drawBattery();
-  drawCommStatus();
-  drawObstacleStatus();
-  drawEdgeStatus();
+  if(writeData)
+  {
+    // Draw dynamic indicators
+    drawBattery();
+    drawCommStatus();
+    drawObstacleStatus();
+    drawEdgeStatus();
+  }
 }
 
 void serialEvent(Serial port)
@@ -318,4 +336,37 @@ void serialEvent(Serial port)
   
   index2 = data.indexOf("RO");
   rightObstacleDetected = boolean(int(data.substring(index+2, index2)));
+}
+
+void mousePressed() 
+{
+  // Start/stop button
+  if (((mouseX > 20) && (mouseX < 20 + 364) && (mouseY > 550) && (mouseY < 550 + 200))) 
+  {
+    // if mouse clicked inside square
+    isStarted = !isStarted;
+    writeData = true;
+    
+    // Send signal to CurioDuino
+    port.write(int(isStarted));
+    
+    // Button rectangle
+    if(isStarted)
+    {
+      fill(255, 0, 0);
+      rect(20, 550, 364, 200);
+      textSize(54);
+      fill(0);
+      text("Stop", 134, 660);
+    }
+    else
+    {
+      fill(0, 255, 0);
+      rect(20, 550, 364, 200);
+      fill(0);
+      textSize(54);
+      text("Start", 120, 660);
+    }
+  }
+  textSize(24);
 }
