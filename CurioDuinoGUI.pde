@@ -121,7 +121,7 @@ void drawBattery()
   fill(redFader, greenFader, 0);
   
   // Draw the bar
-  rect(153, 115, (560*percentage), 18);
+  rect(153, 115, (557*percentage), 18);
   
   // Draw the string
   fill(0);
