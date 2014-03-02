@@ -13,7 +13,7 @@ Serial port;
 
 // Check for start button
 boolean isStarted = false;
-boolean initialStart = false;
+boolean writeData = false;
 
 // Data from battery calculation
 int batteryReading;
@@ -291,7 +291,7 @@ void setup()
 
 void draw()
 {
-  if(initialStart)
+  if(writeData)
   {
     // Draw dynamic indicators
     drawBattery();
@@ -346,7 +346,7 @@ void mousePressed()
   {
     // if mouse clicked inside square
     isStarted = !isStarted;
-    initialStart = true;
+    writeData = true;
     
     // Send signal to CurioDuino
     port.write(int(isStarted));
