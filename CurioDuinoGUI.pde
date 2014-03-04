@@ -43,6 +43,9 @@ int timeI = 0, timeCnt = 0;
 // Make a font object
 PFont font;
 
+// Make an image object
+PImage CurioDuinoImage;
+
 float getCircularBatteryAverage(float inVal)
 {
   // Subtract oldest value from total
@@ -253,6 +256,9 @@ void setup()
   font = loadFont("Monospaced.plain-48.vlw");
   textFont(font);
   
+  // Pick an image
+  CurioDuinoImage = loadImage("CurioDuinoPicture.png");
+  
   // Background color
   background(240);
   
@@ -298,6 +304,7 @@ void draw()
     drawCommStatus();
     drawObstacleStatus();
     drawEdgeStatus();
+    image(CurioDuinoImage, 460, 300);
   }
 }
 
