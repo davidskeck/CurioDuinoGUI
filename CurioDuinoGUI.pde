@@ -248,6 +248,16 @@ void drawEdgeStatus()
   }
 }
 
+void drawCurioDuinoImage()
+{
+  // This is the rectangle under CurioDuino
+  noStroke();
+  fill(200);
+  rect(440, 280, 542, 470);
+  
+  image(CurioDuinoImage, 460, 300);
+}
+
 void setup()
 { 
   size(1024,768);
@@ -304,7 +314,7 @@ void draw()
     drawCommStatus();
     drawObstacleStatus();
     drawEdgeStatus();
-    image(CurioDuinoImage, 460, 300);
+    drawCurioDuinoImage();
   }
 }
 
@@ -357,6 +367,8 @@ void mousePressed()
     
     // Send signal to CurioDuino
     port.write(int(isStarted));
+    
+    stroke(1);
     
     // Button rectangle
     if(isStarted)
