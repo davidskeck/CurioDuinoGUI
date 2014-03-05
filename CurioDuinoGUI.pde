@@ -295,10 +295,10 @@ void drawEdgeStatus()
     fill(255, 0, 0, 195);
     // Indication under CurioDuino
     beginShape();
+    vertex(822, 608);
     vertex(711, 608);
-    vertex(600, 608);
-    vertex(475, 725);
     vertex(711, 725);
+    vertex(947, 725);
     endShape(CLOSE);
   }
   else
@@ -309,10 +309,10 @@ void drawEdgeStatus()
     fill(0, 255, 0, 145);
     // Indication under CurioDuino
     beginShape();
+    vertex(822, 608);
     vertex(711, 608);
-    vertex(600, 608);
-    vertex(475, 725);
     vertex(711, 725);
+    vertex(947, 725);
     endShape(CLOSE);
   }
   
@@ -324,10 +324,10 @@ void drawEdgeStatus()
     fill(255, 0, 0, 195);
     // Indication under CurioDuino
     beginShape();
-    vertex(822, 608);
     vertex(711, 608);
+    vertex(600, 608);
+    vertex(475, 725);
     vertex(711, 725);
-    vertex(947, 725);
     endShape(CLOSE);
   }
   else
@@ -338,10 +338,10 @@ void drawEdgeStatus()
     fill(0, 255, 0, 145);
     // Indication under CurioDuino
     beginShape();
-    vertex(822, 608);
     vertex(711, 608);
+    vertex(600, 608);
+    vertex(475, 725);
     vertex(711, 725);
-    vertex(947, 725);
     endShape(CLOSE);
   }
 }
