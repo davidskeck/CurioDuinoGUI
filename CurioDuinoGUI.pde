@@ -186,33 +186,87 @@ void drawObstacleStatus()
   {
     fill(180, 0, 0);
     text("YES", 338, 282);
+    
+    fill(255, 0, 0, 190);
+    // Indication on CurioDuino
+    beginShape();
+    vertex(856, 500);
+    vertex(888, 500);
+    vertex(868, 600);
+    vertex(836, 600);
+    endShape(CLOSE);
   }
   else
   {
     fill(0);
     text("NO", 345, 282);
+    
+    fill(0, 255, 0, 125);
+    // Indication on CurioDuino
+    beginShape();
+    vertex(856, 500);
+    vertex(888, 500);
+    vertex(868, 600);
+    vertex(836, 600);
+    endShape(CLOSE);
   }
     
   if(middleObstacleDetected)
   {
     fill(180, 0, 0);
     text("YES", 338, 332);
+    
+    fill(255, 0, 0, 190);
+    // Indication on CurioDuino
+    beginShape();
+    vertex(688, 500);
+    vertex(723, 500);
+    vertex(723, 600);
+    vertex(688, 600);
+    endShape(CLOSE);
   }
   else
   {
     fill(0);
     text("NO", 345, 332);
+    
+    fill(0, 255, 0, 125);
+    // Indication on CurioDuino
+    beginShape();
+    vertex(688, 500);
+    vertex(723, 500);
+    vertex(723, 600);
+    vertex(688, 600);
+    endShape(CLOSE);
   }
   
   if(rightObstacleDetected)
   {
     fill(180, 0, 0);
     text("YES", 338, 382);
+    
+    fill(255, 0, 0, 190);
+    // Indication on CurioDuino
+    beginShape();
+    vertex(534, 500);
+    vertex(574, 500);
+    vertex(588, 600);
+    vertex(554, 600);
+    endShape(CLOSE);
   }
   else
   {
     fill(0);
     text("NO", 345, 382);
+    
+    fill(0, 255, 0, 125);
+    // Indication on CurioDuino
+    beginShape();
+    vertex(534, 500);
+    vertex(574, 500);
+    vertex(588, 600);
+    vertex(554, 600);
+    endShape(CLOSE);
   }
 }
 
@@ -224,37 +278,76 @@ void drawEdgeStatus()
   rect(334, 411, 50, 28);
   rect(334, 461, 50, 28);
   
+  // This is the rectangle under CurioDuino
+  noStroke();
+  fill(200);
+  rect(440, 280, 542, 470);
+  
+  // Reset stroke width
+  stroke(1);
+  
   // Draw the strings
   if(leftEdgeDetected)
   {
     fill(180, 0, 0);
     text("YES", 338, 432);
+    
+    fill(255, 0, 0, 195);
+    // Indication under CurioDuino
+    beginShape();
+    vertex(711, 608);
+    vertex(600, 608);
+    vertex(475, 725);
+    vertex(711, 725);
+    endShape(CLOSE);
   }
   else
   {
     fill(0);
     text("NO", 345, 432);
+    
+    fill(0, 255, 0, 145);
+    // Indication under CurioDuino
+    beginShape();
+    vertex(711, 608);
+    vertex(600, 608);
+    vertex(475, 725);
+    vertex(711, 725);
+    endShape(CLOSE);
   }
   
   if(rightEdgeDetected)
   {
     fill(180, 0, 0);
     text("YES", 338, 482);
+    
+    fill(255, 0, 0, 195);
+    // Indication under CurioDuino
+    beginShape();
+    vertex(822, 608);
+    vertex(711, 608);
+    vertex(711, 725);
+    vertex(947, 725);
+    endShape(CLOSE);
   }
   else
   {
     fill(0);
     text("NO", 345, 482);
+    
+    fill(0, 255, 0, 145);
+    // Indication under CurioDuino
+    beginShape();
+    vertex(822, 608);
+    vertex(711, 608);
+    vertex(711, 725);
+    vertex(947, 725);
+    endShape(CLOSE);
   }
 }
 
 void drawCurioDuinoImage()
 {
-  // This is the rectangle under CurioDuino
-  noStroke();
-  fill(200);
-  rect(440, 280, 542, 470);
-  
   image(CurioDuinoImage, 460, 300);
 }
 
@@ -312,9 +405,9 @@ void draw()
     // Draw dynamic indicators
     drawBattery();
     drawCommStatus();
-    drawObstacleStatus();
     drawEdgeStatus();
     drawCurioDuinoImage();
+    drawObstacleStatus();
   }
 }
 
