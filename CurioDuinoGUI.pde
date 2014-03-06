@@ -147,8 +147,6 @@ void drawCommStatus()
   timeSinceLink = millis();
   timeSinceLink = getCircularTimeAverage(timeSinceLink -= timeAtLink);
   
-  //println(timeSinceLink);
-  
   // From zero to one second, change color
   float greenFader = map(timeSinceLink, 500, 1000, 255, 0);
   float redFader = map(timeSinceLink, 0, 500, 0, 255);
@@ -389,9 +387,6 @@ void setup()
   text("R obstacle detected: ", 20, 381);
   text("L edge detected: ", 20, 431);
   text("R edge detected: ", 20, 481);
-  
-  // If necessary, print list of serial ports
-  //println(Serial.list());
   
   String arduinoPort = Serial.list()[PORT_NUMBER];
   port = new Serial(this, arduinoPort, 9600);
