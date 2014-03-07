@@ -388,9 +388,17 @@ void setup()
   text("L edge detected: ", 20, 431);
   text("R edge detected: ", 20, 481);
   
-  String arduinoPort = Serial.list()[PORT_NUMBER];
-  port = new Serial(this, arduinoPort, 9600);
-  port.bufferUntil('\n'); //*/
+  try
+  {
+    String arduinoPort = Serial.list()[PORT_NUMBER];
+    port = new Serial(this, arduinoPort, 9600);
+    port.bufferUntil('\n'); //*/
+  }
+  catch (Exception E)
+  {
+    javax.swing.JOptionPane.showMessageDialog(null, "Error opening serial port named " + Serial.list()[PORT_NUMBER]);
+    exit();
+  }
 }
 
 void draw()
