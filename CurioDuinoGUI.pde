@@ -396,7 +396,7 @@ void setup()
   }
   catch (Exception E)
   {
-    javax.swing.JOptionPane.showMessageDialog(null, "Error opening serial port named " + Serial.list()[PORT_NUMBER]);
+    javax.swing.JOptionPane.showMessageDialog(null, "Error opening serial port. Error: " + E);
     exit();
   }
 }
