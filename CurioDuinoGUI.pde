@@ -1,5 +1,14 @@
-// CurioDuino GUI
-
+/* 
+ * David Keck
+ * CurioDuinoGUI.pde
+ * Graphical interface for
+ * operations of the CurioDuino Autonomous
+ * robot project.
+ * More information can be found here:
+ * davidskeck.wordpress.com
+ * or here http://github.com/davidskeck/CurioDuinoGUI
+ */
+ 
 import processing.serial.*;
 
 // 1 for windows, 0 for mac bluetooth, 3 mac usb
