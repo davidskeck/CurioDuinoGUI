@@ -377,13 +377,13 @@ void setup()
   rect(6, 100, 1010, 661, 9);
 
   // Button rectangle
-  fill(0, 255, 0);
+  fill(255, 255, 0);
   rect(20, 550, 364, 200);
   
   // Print out labels
   fill(0);
-  textSize(54);
-  text("Start", 120, 660);
+  textSize(48);
+  text("Calibrate\n Compass", 75, 635);
   textSize(48);
   text("CurioDuino Mission Control", 145, 60);
   textSize(24);
