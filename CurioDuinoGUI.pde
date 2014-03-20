@@ -465,12 +465,11 @@ void serialEvent(Serial port)
 
 void mousePressed() 
 {
-  // Start/stop button
+  // Start/stop button coordinates
   if (((mouseX > 20) && (mouseX < 20 + 364) && (mouseY > 550) && (mouseY < 550 + 200))) 
   {
     // if mouse clicked inside square
     isStarted = !isStarted;
-    writeData = true;
     
     // Send signal to CurioDuino
     port.write(int(isStarted));
@@ -478,7 +477,9 @@ void mousePressed()
     stroke(1);
     
     // Button rectangle
-    if(isStarted)
+    // Check for isStarted and writeData to determine
+    // whether to start roving, or start compass calibration.
+    if(isStarted && writeData)
     {
       fill(255, 0, 0);
       rect(20, 550, 364, 200);
@@ -493,7 +494,14 @@ void mousePressed()
       fill(0);
       textSize(54);
       text("Start", 120, 660);
+      
+      // Change to false to accomdate first click
+      // as compass function
+      isStarted = false;
     }
+    
+    writeData = true;
   }
+  
   textSize(24);
 }
