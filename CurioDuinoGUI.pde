@@ -401,7 +401,7 @@ void setup()
   {
     String arduinoPort = Serial.list()[PORT_NUMBER];
     port = new Serial(this, arduinoPort, 9600);
-    port.bufferUntil('\n'); //*/
+    port.bufferUntil('\n');
   }
   catch (Exception E)
   {
