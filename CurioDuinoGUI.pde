@@ -39,6 +39,11 @@ boolean leftObstacleDetected = false;
 boolean middleObstacleDetected = false;
 boolean rightObstacleDetected = false;
 
+// Motor variables
+boolean leftForward = false;
+boolean rightForward = false;
+int leftSpeed, rightSpeed;
+
 // Store battery averages
 float[] batteryData = new float[SAMPLE_SIZE];
 float batteryTotal = 0;
@@ -461,6 +466,18 @@ void serialEvent(Serial port)
   
   index2 = data.indexOf("RO");
   rightObstacleDetected = boolean(int(data.substring(index+2, index2)));
+  
+  index = data.indexOf("LF");
+  leftForward = boolean(int(data.substring(index2+2, index)));
+  
+  index2 = data.indexOf("RF");
+  rightForward = boolean(int(data.substring(index+2, index2)));
+  
+  index = data.indexOf("RS");
+  rightSpeed = int(data.substring(index2+2, index));
+  
+  index2 = data.indexOf("LS");
+  leftSpeed = int(data.substring(index+2, index2));
 }
 
 void mousePressed() 
