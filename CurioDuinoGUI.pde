@@ -435,7 +435,7 @@ void serialEvent(Serial port)
   // Required to make sure the
   // entire data packet has been
   // sent and recieved
-  if (port.available() < 21)
+  if (port.available() < 35)
   {
     port.clear();
     return;
