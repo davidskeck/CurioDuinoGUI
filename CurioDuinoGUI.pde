@@ -363,6 +363,14 @@ void drawCurioDuinoImage()
   image(CurioDuinoImage, 460, 300);
 }
 
+void drawMovementStatus()
+{
+  // This is the rectangle under the string
+  stroke(1);
+  fill(200);
+  rect(289, 511, 95, 28);
+}
+
 void setup()
 { 
   size(1024,768);
@@ -401,6 +409,7 @@ void setup()
   text("R obstacle detected: ", 20, 381);
   text("L edge detected: ", 20, 431);
   text("R edge detected: ", 20, 481);
+  text("Movement status: " , 20, 531);
   
   try
   {
@@ -427,6 +436,7 @@ void draw()
     drawEdgeStatus();
     drawCurioDuinoImage();
     drawObstacleStatus();
+    drawMovementStatus();
   }
 }
 
