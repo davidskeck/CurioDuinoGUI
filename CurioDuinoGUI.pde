@@ -369,6 +369,10 @@ void drawMovementStatus()
   stroke(1);
   fill(200);
   rect(289, 511, 95, 28);
+  print(leftForward);
+  print(rightForward);
+  print(leftSpeed);
+  print(rightSpeed);
 }
 
 void setup()
