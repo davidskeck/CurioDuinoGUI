@@ -496,7 +496,7 @@ void mousePressed()
   if (((mouseX > 20) && (mouseX < 20 + 364) && (mouseY > 550) && (mouseY < 550 + 200))) 
   {
     // if mouse clicked inside square
-    isStarted = !isStarted
+    isStarted = !isStarted;
         
     // Send signal to CurioDuino
     port.write(int(isStarted));
