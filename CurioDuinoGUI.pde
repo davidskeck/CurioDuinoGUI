@@ -108,7 +108,7 @@ long getCircularTimeAverage(long inVal)
 void drawBattery()
 {
   // Calculate battery percentage
-  float percentage = (batteryReading*1.5)/1023;
+  float percentage = batteryReading/720.0;
   
   percentage = getCircularBatteryAverage(percentage);
   
@@ -437,7 +437,7 @@ void draw()
   drawEdgeStatus();
   drawCurioDuinoImage();
   drawObstacleStatus();
-  drawMovementStatus();
+  //drawMovementStatus();
 }
 
 void serialEvent(Serial port)
