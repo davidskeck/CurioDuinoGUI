@@ -394,13 +394,13 @@ void setup()
   rect(6, 100, 1010, 661, 9);
 
   // Button rectangle
-  fill(255, 255, 0);
+  fill(0, 255, 0);
   rect(20, 550, 364, 200);
   
   // Print out labels
   fill(0);
-  textSize(48);
-  text("Calibrate\n Compass", 75, 635);
+  textSize(54);
+  text("Start", 120, 660);
   textSize(48);
   text("CurioDuino Mission Control", 145, 60);
   textSize(24);
@@ -501,6 +501,7 @@ void mousePressed()
   {
     // if mouse clicked inside square
     isStarted = !isStarted;
+    writeData = true;
     
     // Send signal to CurioDuino
     port.write(int(isStarted));
@@ -510,7 +511,7 @@ void mousePressed()
     // Button rectangle
     // Check for isStarted and writeData to determine
     // whether to start roving, or start compass calibration.
-    if(isStarted && writeData)
+    if(isStarted)
     {
       fill(255, 0, 0);
       rect(20, 550, 364, 200);
@@ -525,13 +526,7 @@ void mousePressed()
       fill(0);
       textSize(54);
       text("Start", 120, 660);
-      
-      // Change to false to accomdate first click
-      // as compass function
-      isStarted = false;
     }
-    
-    writeData = true;
   }
   
   textSize(24);
