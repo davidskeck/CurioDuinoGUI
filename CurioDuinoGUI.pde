@@ -22,7 +22,6 @@ Serial port;
 
 // Check for start button
 boolean isStarted = false;
-boolean writeData = false;
 
 // Data from battery calculation
 int batteryReading;
@@ -432,16 +431,13 @@ void setup()
 
 void draw()
 {
-  if(writeData)
-  {
-    // Draw dynamic indicators
-    drawBattery();
-    drawCommStatus();
-    drawEdgeStatus();
-    drawCurioDuinoImage();
-    drawObstacleStatus();
-    drawMovementStatus();
-  }
+  // Draw dynamic indicators
+  drawBattery();
+  drawCommStatus();
+  drawEdgeStatus();
+  drawCurioDuinoImage();
+  drawObstacleStatus();
+  drawMovementStatus();
 }
 
 void serialEvent(Serial port)
@@ -500,17 +496,14 @@ void mousePressed()
   if (((mouseX > 20) && (mouseX < 20 + 364) && (mouseY > 550) && (mouseY < 550 + 200))) 
   {
     // if mouse clicked inside square
-    isStarted = !isStarted;
-    writeData = true;
-    
+    isStarted = !isStarted
+        
     // Send signal to CurioDuino
     port.write(int(isStarted));
     
     stroke(1);
     
-    // Button rectangle
-    // Check for isStarted and writeData to determine
-    // whether to start roving, or start compass calibration.
+    // Check status to determine button display type
     if(isStarted)
     {
       fill(255, 0, 0);
