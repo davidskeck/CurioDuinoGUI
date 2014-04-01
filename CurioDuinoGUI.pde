@@ -110,6 +110,8 @@ void drawBattery()
   // Calculate battery percentage
   float percentage = batteryReading/720.0;
   
+  println(batteryReading);
+  
   percentage = getCircularBatteryAverage(percentage);
   
   if (percentage > 1.0)
