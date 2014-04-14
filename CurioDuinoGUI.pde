@@ -293,7 +293,7 @@ void drawEdgeStatus()
   
   // This is the rectangle under CurioDuino
   noStroke();
-  fill(200);
+  fill(189);
   rect(440, 280, 542, 470);
   
   // Reset stroke width
