@@ -23,6 +23,9 @@ Serial port;
 // Check for start button
 boolean isStarted = false;
 
+// Check for when to draw
+boolean draw = false;
+
 // Data from battery calculation
 int batteryReading;
 
@@ -109,8 +112,6 @@ void drawBattery()
 {
   // Calculate battery percentage
   float percentage = batteryReading/720.0;
-  
-  println(batteryReading);
   
   percentage = getCircularBatteryAverage(percentage);
   
@@ -433,13 +434,16 @@ void setup()
 
 void draw()
 {
-  // Draw dynamic indicators
-  drawBattery();
-  drawCommStatus();
-  drawEdgeStatus();
-  drawCurioDuinoImage();
-  drawObstacleStatus();
-  //drawMovementStatus();
+  if (draw)
+  {
+    // Draw dynamic indicators
+    drawBattery();
+    drawCommStatus();
+    drawEdgeStatus();
+    drawCurioDuinoImage();
+    drawObstacleStatus();
+    //drawMovementStatus();
+  }
 }
 
 void serialEvent(Serial port)
@@ -499,6 +503,7 @@ void mousePressed()
   {
     // if mouse clicked inside square
     isStarted = !isStarted;
+    draw = true;
         
     // Send signal to CurioDuino
     port.write(int(isStarted));
