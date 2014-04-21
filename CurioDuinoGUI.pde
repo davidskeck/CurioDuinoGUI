@@ -375,7 +375,7 @@ void drawMovementStatus()
   // Set fill for text
   fill(0);
   
-  if (leftForward && rightForward)
+  if (leftForward && rightForward && isStarted)
   {
     text("FORWARD", 280, 532);
   }
@@ -390,6 +390,10 @@ void drawMovementStatus()
   else if (!leftForward && !rightForward)
   {
     text("REVERSE", 280, 532);
+  }
+  else
+  {
+    text("STOPPED", 280, 532);
   }
 }
 
