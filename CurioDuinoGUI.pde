@@ -386,7 +386,7 @@ void drawMovementStatus()
   {
     text("L-TURN", 287, 532);
   }
-  else if (!leftForward && !rightForward)
+  else if (!leftForward && !rightForward && isStarted)
   {
     text("REVERSE", 280, 532);
   }
