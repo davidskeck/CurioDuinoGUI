@@ -370,11 +370,27 @@ void drawMovementStatus()
   // This is the rectangle under the string
   stroke(1);
   fill(200);
-  rect(289, 511, 95, 28);
-  print(leftForward);
-  print(rightForward);
-  print(leftSpeed);
-  print(rightSpeed);
+  rect(276, 511, 108, 28);
+  
+  // Set fill for text
+  fill(0);
+  
+  if (leftForward && rightForward)
+  {
+    text("FORWARD", 280, 532);
+  }
+  else if (leftForward && !rightForward)
+  {
+    text("R-TURN", 287, 532);
+  }
+  else if (!leftForward && rightForward)
+  {
+    text("L-TURN", 287, 532);
+  }
+  else if (!leftForward && !rightForward)
+  {
+    text("REVERSE", 280, 532);
+  }
 }
 
 void setup()
@@ -442,7 +458,7 @@ void draw()
     drawEdgeStatus();
     drawCurioDuinoImage();
     drawObstacleStatus();
-    //drawMovementStatus();
+    drawMovementStatus();
   }
 }
 
