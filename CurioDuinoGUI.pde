@@ -44,7 +44,6 @@ boolean rightObstacleDetected = false;
 // Motor variables
 boolean leftForward = false;
 boolean rightForward = false;
-int leftSpeed, rightSpeed;
 
 // Store battery averages
 float[] batteryData = new float[SAMPLE_SIZE];
@@ -471,7 +470,7 @@ void serialEvent(Serial port)
   // Required to make sure the
   // entire data packet has been
   // sent and recieved
-  if (port.available() < 35)
+  if (port.available() < 27)
   {
     port.clear();
     return;
@@ -508,12 +507,6 @@ void serialEvent(Serial port)
   
   index2 = data.indexOf("RF");
   rightForward = boolean(int(data.substring(index+2, index2)));
-  
-  index = data.indexOf("RS");
-  rightSpeed = int(data.substring(index2+2, index));
-  
-  index2 = data.indexOf("LS");
-  leftSpeed = int(data.substring(index+2, index2));
 }
 
 void mousePressed() 
