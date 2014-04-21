@@ -426,8 +426,8 @@ void setup()
   catch (Exception E)
   {
     // Couldn't open port, show message box and close program
-    javax.swing.JOptionPane.showMessageDialog(null, E,
-    "Serial port connection error",javax.swing.JOptionPane.INFORMATION_MESSAGE);
+    javax.swing.JOptionPane.showMessageDialog(null, "Port could not be opened.",
+    "Serial port connection error", 0);
     exit();
   }
 }
