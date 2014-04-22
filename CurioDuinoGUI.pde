@@ -384,23 +384,37 @@ void drawMovementStatus()
   if (leftForward && rightForward && isStarted)
   {
     text("FORWARD", 280, 532);
+    strokeWeight(5);
+    stroke(255, 255, 0);
+    drawArrow(553, 370, 100, 106);
+    drawArrow(873, 370, 100, 73);
   }
   else if (leftForward && !rightForward)
   {
     text("R-TURN", 287, 532);
+    drawArrow(523, 470, 100, 288);
+    drawArrow(873, 370, 100, 73);
   }
   else if (!leftForward && rightForward)
   {
     text("L-TURN", 287, 532);
+    drawArrow(553, 370, 100, 106);
+    drawArrow(903, 470, 100, 253);
   }
   else if (!leftForward && !rightForward && isStarted)
   {
     text("REVERSE", 280, 532);
+    strokeWeight(5);
+    stroke(255, 255, 0);
+    drawArrow(523, 470, 100, 288);
+    drawArrow(903, 470, 100, 253);
   }
   else
   {
     text("STOPPED", 280, 532);
   }
+  strokeWeight(1);
+  stroke(0);
 }
 
 void setup()
@@ -630,4 +644,15 @@ void mousePressed()
   }
   
   textSize(24);
+}
+
+void drawArrow(int cx, int cy, int len, float angle)
+{
+  pushMatrix();
+  translate(cx, cy);
+  rotate(radians(angle));
+  line(0,0,len, 0);
+  line(len, 0, len - 12, -12);
+  line(len, 0, len - 12, 12);
+  popMatrix();
 }
