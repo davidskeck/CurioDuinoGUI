@@ -1,9 +1,8 @@
 /* 
  * David Keck
  * CurioDuinoGUI.pde
- * Graphical interface for
- * operations of the CurioDuino Autonomous
- * robot project.
+ * Graphical interface for operations of 
+ * the CurioDuino Autonomous robot project.
  * More information can be found here:
  * davidskeck.wordpress.com
  * or here http://github.com/davidskeck/CurioDuinoGUI
@@ -31,6 +30,14 @@ int batteryReading;
 
 // Time measurements
 long timeAtLink, timeSinceLink;
+
+// Speed changer
+final int SPEED_ONE = 75;
+final int SPEED_TWO = 100;
+final int SPEED_THREE = 125;
+boolean buttonOne = true;
+boolean buttonTwo = false;
+boolean buttonThree = false;
 
 // Edge sensors
 boolean leftEdgeDetected = false;
@@ -418,10 +425,19 @@ void setup()
   fill(0, 255, 0);
   rect(20, 550, 364, 200);
   
+  // Speed selector buttons
+  rect(630, 155, 40, 40);
+  fill(200);
+  rect(690, 155, 80, 40);
+  rect(790, 155, 120, 40);
+  
   // Print out labels
   fill(0);
   textSize(54);
   text("Start", 120, 660);
+  text(">", 636, 191);
+  text(">>", 700, 191);
+  text(">>>", 805, 191);
   textSize(48);
   text("CurioDuino Mission Control", 145, 60);
   textSize(24);
@@ -435,6 +451,7 @@ void setup()
   text("L edge detected: ", 20, 431);
   text("R edge detected: ", 20, 481);
   text("Movement status: " , 20, 531);
+  text("Speed selector: ", 400, 181);
   
   try
   {
@@ -540,6 +557,76 @@ void mousePressed()
       textSize(54);
       text("Start", 120, 660);
     }
+  }
+  
+  if ((buttonOne == false) && ((mouseX > 630) && (mouseX < 630 + 40) && (mouseY > 155) && (mouseY < 155 + 40))) 
+  {
+    buttonOne = true;
+    buttonTwo = false;
+    buttonThree = false;
+    
+    port.write(SPEED_ONE);
+    
+    // Speed selector one
+    fill(0, 255, 0);
+    rect(630, 155, 40, 40);
+    
+    fill(200);
+    rect(690, 155, 80, 40);
+    rect(790, 155, 120, 40);
+    
+    fill(0);
+    textSize(54);
+    text(">", 636, 191);
+    text(">>", 700, 191);
+    text(">>>", 805, 191);
+  }
+  
+  if ((buttonTwo == false) && ((mouseX > 690) && (mouseX < 690 + 80) && (mouseY > 155) && (mouseY < 155 + 40))) 
+  {
+    buttonOne = false;
+    buttonTwo = true;
+    buttonThree = false;
+    
+    port.write(SPEED_TWO);
+    
+    // Speed selector one
+    fill(255, 255, 0);
+    rect(690, 155, 80, 40);
+    
+    fill(200);
+    rect(630, 155, 40, 40);
+    rect(790, 155, 120, 40);
+    
+    fill(0);
+    textSize(54);
+    text(">", 636, 191);
+    text(">>", 700, 191);
+    text(">>>", 805, 191);
+  }
+  
+  if ((buttonThree == false) && ((mouseX > 790) && (mouseX < 790 + 120) && (mouseY > 155) && (mouseY < 155 + 40))) 
+  {
+    buttonOne = false;
+    buttonTwo = false;
+    buttonThree = true;
+    
+    port.write(SPEED_THREE);
+    
+    // Speed selector one
+    fill(255, 0, 0);
+    rect(790, 155, 120, 40);
+    
+    fill(200);
+    rect(630, 155, 40, 40);
+    rect(690, 155, 80, 40);
+
+    
+    fill(0);
+    textSize(54);
+    text(">", 636, 191);
+    text(">>", 700, 191);
+    text(">>>", 805, 191);
   }
   
   textSize(24);
