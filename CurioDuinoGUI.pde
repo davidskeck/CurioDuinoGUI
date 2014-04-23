@@ -33,8 +33,8 @@ long timeAtLink, timeSinceLink;
 
 // Speed changer
 final int SPEED_ONE = 75;
-final int SPEED_TWO = 100;
-final int SPEED_THREE = 125;
+final int SPEED_TWO = 125;
+final int SPEED_THREE = 175;
 boolean buttonOne = true;
 boolean buttonTwo = false;
 boolean buttonThree = false;
@@ -381,11 +381,13 @@ void drawMovementStatus()
   // Set fill for text
   fill(0);
   
+  // Set fill and weight for line
+  stroke(255, 255, 0);
+  strokeWeight(5);
+  
   if (leftForward && rightForward && isStarted)
   {
     text("FORWARD", 280, 532);
-    strokeWeight(5);
-    stroke(255, 255, 0);
     drawArrow(553, 370, 100, 106);
     drawArrow(873, 370, 100, 73);
   }
@@ -405,7 +407,6 @@ void drawMovementStatus()
   {
     text("REVERSE", 280, 532);
     strokeWeight(5);
-    stroke(255, 255, 0);
     drawArrow(523, 470, 100, 288);
     drawArrow(903, 470, 100, 253);
   }
