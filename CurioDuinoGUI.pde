@@ -52,6 +52,12 @@ boolean rightObstacleDetected = false;
 boolean leftForward = false;
 boolean rightForward = false;
 
+// Key input
+boolean spacebar = false;
+boolean keyOne = false;
+boolean keyTwo = false;
+boolean keyThree = false;
+
 // Store battery averages
 float[] batteryData = new float[SAMPLE_SIZE];
 float batteryTotal = 0;
@@ -657,3 +663,168 @@ void drawArrow(int cx, int cy, int len, float angle)
   line(len, 0, len - 12, 12);
   popMatrix();
 }
+
+void keyPressed() 
+{
+  // Spacebar
+  if (key == 32) 
+  {
+    spacebar = true;
+    startButton();
+  }
+  
+  // 1
+  else if (key == 49)
+  {
+    keyOne = true;
+    speedOne();
+  }
+  
+  // 2
+  else if (key == 50)
+  {
+    keyTwo = true;
+    speedTwo();
+  }
+  
+  // 3
+  else if (key == 51)
+  {
+    keyThree = true;
+    speedThree();
+  }
+}
+
+void startButton()
+{
+  // Start/stop button coordinates
+  if (spacebar) 
+  {
+    // if mouse clicked inside square
+    isStarted = !isStarted;
+    draw = true;
+        
+    // Send signal to CurioDuino
+    port.write(int(isStarted));
+    
+    stroke(1);
+    
+    // Check status to determine button display type
+    if(isStarted)
+    {
+      fill(255, 0, 0);
+      rect(20, 550, 364, 200);
+      textSize(54);
+      fill(0);
+      text("Stop", 134, 660);
+    }
+    else
+    {
+      fill(0, 255, 0);
+      rect(20, 550, 364, 200);
+      fill(0);
+      textSize(54);
+      text("Start", 120, 660);
+    }
+    
+    // Handle keyboard shortcut boolean
+    spacebar = false;
+    
+    textSize(24);
+  }
+}
+
+void speedOne()
+{
+  if (keyOne) 
+    {
+      buttonOne = true;
+      buttonTwo = false;
+      buttonThree = false;
+      
+      port.write(SPEED_ONE);
+      
+      // Speed selector one
+      fill(0, 255, 0);
+      rect(530, 205, 40, 40);
+      
+      fill(200);
+      rect(640, 205, 80, 40);
+      rect(790, 205, 120, 40);
+      
+      fill(0);
+      textSize(54);
+      text(">", 536, 241);
+      text(">>", 650, 241);
+      text(">>>", 805, 241);
+      
+      // Handle keyboard shortcut boolean
+      keyOne = false;
+      
+      textSize(24);
+    }
+}
+  
+void speedTwo()
+{
+  if (keyTwo) 
+  {
+    buttonOne = false;
+    buttonTwo = true;
+    buttonThree = false;
+    
+    port.write(SPEED_TWO);
+    
+    // Speed selector one
+    fill(255, 255, 0);
+    rect(640, 205, 80, 40);
+    
+    fill(200);
+    rect(530, 205, 40, 40);
+    rect(790, 205, 120, 40);
+    
+    fill(0);
+    textSize(54);
+    text(">", 536, 241);
+    text(">>", 650, 241);
+    text(">>>", 805, 241);
+    
+    // Handle keyboard shortcut boolean
+    keyTwo = false;
+    
+    textSize(24);
+  }
+}
+
+void speedThree()
+{
+  if (keyThree) 
+  {
+    buttonOne = false;
+    buttonTwo = false;
+    buttonThree = true;
+    
+    port.write(SPEED_THREE);
+    
+    // Speed selector one
+    fill(255, 0, 0);
+    rect(790, 205, 120, 40);
+    
+    fill(200);
+    rect(530, 205, 40, 40);
+    rect(640, 205, 80, 40);
+
+    
+    fill(0);
+    textSize(54);
+    text(">", 536, 241);
+    text(">>", 650, 241);
+    text(">>>", 805, 241);
+    
+    // Handle keyboard shortcut boolean
+    keyThree = false;
+    
+    textSize(24);
+  }
+}
+
