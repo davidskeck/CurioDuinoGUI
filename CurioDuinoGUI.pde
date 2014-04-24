@@ -422,6 +422,9 @@ void setup()
 { 
   size(1024,768);
   
+  // Application icon
+  frame.setIconImage( getToolkit().getImage("CurioDuinoPicture.png") );
+  
   // Pick a font
   font = loadFont("Monospaced.plain-48.vlw");
   textFont(font);
