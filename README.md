@@ -1,3 +1,5 @@
+![alt tag](data/GUI.png)
+
 CurioDuinoGUI
 =============
 A graphical interface in Processing for the CurioDuino robot. 
