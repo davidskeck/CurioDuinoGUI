@@ -1,4 +1,4 @@
-![alt tag](data/GUI.png)
+![alt tag](data/GUI.gif)
 
 CurioDuinoGUI
 =============
